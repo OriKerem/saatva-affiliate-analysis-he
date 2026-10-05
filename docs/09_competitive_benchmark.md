@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # 09 · שלב 07 - Benchmark תחרותי: ערוצים, publishers, השוואה בין מותגים, כרטיס ניקוד
 
 > קוד SQL: [`sql/07_competitive_benchmark.sql`](https://github.com/OriKerem/saatva-affiliate-analysis/blob/main/sql/07_competitive_benchmark.sql). הורץ על **הנתונים המלאים**
@@ -8,8 +10,8 @@
 ## 1. השוואה הוגנת
 
 ב-Saatva מוכרים מזרנים; ב-Walmart מוכרים הכול. **ההשוואה ל-Walmart נעשית דרך מחלקת המזרנים שלה בלבד**
-(מסמך 07 §5: ביקור ב-Walmart שכלל עמוד מוצר, חיפוש, קטגוריה, מותג או מודעה ממומנת שכתובת ה-URL שלו מכילה
-"mattress"). כל Walmart מופיעה פעם אחת, בכרטיס הניקוד, עם התווית *להקשר בלבד*, ואינה משמשת באף
+(מסמך 07 §5: ביקור ב-Walmart שכלל עמוד מוצר, חיפוש, קטגוריה, מותג או מודעה ממומנת שכתובת ה-URL שלו
+מכילה "mattress"). כל Walmart מופיעה פעם אחת, בכרטיס הניקוד, עם התווית *להקשר בלבד*, ואינה משמשת באף
 השוואה.
 
 סגמנטים: `saatva`, `nectar`, `helix`, `dreamcloud`, `walmart_mattress`.
@@ -24,9 +26,9 @@
 | סדר | ערוץ | כלל |
 |---:|---|---|
 | 1 | affiliate | סמן affiliate בכתובת הנחיתה (מסמך 05) |
-| 2 | paid_search | `gclid` / `gad_source` / `gbraid` / `wbraid` / `msclkid`, מסוג `utm_medium=cpc`, ב-Walmart `veh=sem` / `wmlspartner=wlpa`, או host קודם של שרת מודעות |
+| 2 | paid_search | פרמטרי `gclid` / `gad_source` / `gbraid` / `wbraid` / `msclkid`, מסוג `utm_medium=cpc`, ב-Walmart `veh=sem` / `wmlspartner=wlpa`, או host קודם של שרת מודעות |
 | 3 | email | מסוג `utm_medium=email`, ב-Walmart `veh=eml`, או host קודם של webmail |
-| 4 | social | `fbclid` / `ttclid` / `twclid`, ערך `utm_source` חברתי, או host קודם של רשת חברתית |
+| 4 | social | פרמטרי `fbclid` / `ttclid` / `twclid`, ערך `utm_source` חברתי, או host קודם של רשת חברתית |
 | 5 | other_campaign | כל `utm_medium` אחר |
 | 6 | review_content | ה-host הקודם הוא אתר ביקורות / תוכן שינה (Sleep Foundation, mattressclarity, rtings, …) |
 | 7 | competitor | ה-host הקודם הוא מותג מזרנים או קמעונאי אחר |
@@ -45,7 +47,7 @@
 | Nectar | 65 / 53 | 3.1 | **50.8** | 1.5 | 1.5 | 0 | 0 | 1.5 | 38.5 | 3.1 |
 | Helix | 22 / 19 | 13.6 | 4.5 | 0 | 0 | 4.5 | 0 | 27.3 | 31.8 | 18.2 |
 | DreamCloud | 32 / 29 | 6.3 | **43.8** | 0 | 0 | 9.4 | 0 | 0 | 37.5 | 3.1 |
-| Walmart - מזרנים | 54 / 53 | 7.4 | 37.0 | 3.7 | 0 | 0 | 1.9 | 0 | 33.3 | 16.7 |
+| מזרנים ב-Walmart | 54 / 53 | 7.4 | 37.0 | 3.7 | 0 | 0 | 1.9 | 0 | 33.3 | 16.7 |
 
 - **ל-Saatva יש נתח ה-affiliate הגבוה ביותר בקבוצה (17.6%)** ואחד מנתחי החיפוש הממומן הנמוכים. ב-Nectar,
   ב-DreamCloud ובמחלקת המזרנים של Walmart קונים את התנועה בחיפוש (37-51%).
@@ -58,17 +60,17 @@
 
 | סגמנט | Publishers | קליקים עם `afsrc=1` | מקורות עיקריים |
 |---|---:|---:|---|
-| **Saatva** | **3** | **0%** | mattressnrd (publisher של ביקורות מזרנים), brandxemail, trafficpoint |
-| Nectar | 2 | 100% | truemed, affiliate של חיפוש ממומן |
-| Helix | 2 | 100% | Impact דרך mattressclarity.com |
-| DreamCloud | 2 | 50% | wickfire דרך buyersguide.org, trafficpoint |
-| Walmart - מזרנים | **20** | 94% | קישורי יוצרי תוכן (Mavely, ShopYourLikes), מנועי השוואה (Bizrate, Kelkoo), rtings |
+| **Saatva** | **3** | **0%** | השותפים mattressnrd (publisher של ביקורות מזרנים), brandxemail, trafficpoint |
+| Nectar | 2 | 100% | השותפים truemed, affiliate של חיפוש ממומן |
+| Helix | 2 | 100% | רשת Impact דרך mattressclarity.com |
+| DreamCloud | 2 | 50% | השותפים wickfire דרך buyersguide.org, trafficpoint |
+| מזרנים ב-Walmart | **20** | 94% | קישורי יוצרי תוכן (Mavely, ShopYourLikes), מנועי השוואה (Bizrate, Kelkoo), rtings |
 
 ### 4.2 אתרים מפנים שאינם (עדיין) affiliates של Saatva
 
 | אתר | סוג | שולח ל- | כ-affiliate? |
 |---|---|---|---|
-| sleepfoundation.org | ביקורות / תוכן שינה | **Saatva** | **לא**: Saatva מקבלת את הביקור, האתר לא מקבל עמלה |
+| sleepfoundation.org | ביקורות / תוכן שינה | **Saatva** | **לא**: חברת Saatva מקבלת את הביקור, האתר לא מקבל עמלה |
 | mattressclarity.com | ביקורות | Helix | כן |
 | buyersguide.org | ביקורות | DreamCloud | כן |
 | rtings.com | ביקורות | מזרנים ב-Walmart | כן (קליק 1) / תוכן (ביקור 1) |
@@ -82,10 +84,10 @@
 | Nectar | 53 | 21 | 39.6 |
 | Helix | 19 | 7 | 36.8 |
 | DreamCloud | 29 | 17 | **58.6** |
-| Walmart - מזרנים | 53 | 8 | 15.1 |
+| מזרנים ב-Walmart | 53 | 8 | 15.1 |
 
-סדר הביקורים באותו יום שמערבים את Saatva: **8 אנשים ביקרו אצל מתחרה לפני Saatva** (DreamCloud 4,
-Helix 2, מזרנים ב-Walmart 2); **2 ביקרו אצל מתחרה אחרי Saatva** (Helix, Nectar). זהו סדר הביקורים
+סדר הביקורים באותו יום שמערבים את Saatva: **8 אנשים ביקרו אצל מתחרה לפני Saatva** (DreamCloud 4, Helix 2,
+מזרנים ב-Walmart 2); **2 ביקרו אצל מתחרה אחרי Saatva** (Helix, Nectar). זהו סדר הביקורים
 במהלך היום, ולא מעבר ישיר מאתר לאתר. נראה ש-Saatva נוטה להיות מבוקרת בשלב מאוחר
 בהשוואה. החציון של הזמן בין הביקורים: מדקות ספורות ועד כ-40 דקות.
 
@@ -99,18 +101,18 @@ Helix 2, מזרנים ב-Walmart 2); **2 ביקרו אצל מתחרה אחרי S
 | Nectar | 53 | 0 | 3 (2) | 1,285 (156 - 4,643) | ≤ 84% | 2 | 100% | 0 / 0 |
 | Helix | 19 | 0 | 2 (2) | 857 (104 - 3,095) | ≤ 84% | 2 | 100% | 0 / 0 |
 | DreamCloud | 29 | 0 | 2 (2) | 857 (104 - 3,095) | ≤ 84% | 2 | 50% | 0 / 0 |
-| Walmart - מזרנים | 53 | 5 | 64 (6) | 27,419 (10,063 - 59,678) | ≤ 46% | 20 | 94% | 0 / 10 |
-| *Walmart - הכול (להקשר בלבד)* | *13,242* | *899* | *3,234 (1,266)* | *1.39 M (1.14 - 1.66 M)* | *3.7% לקליק* | *221* | *83%* | *181 / 695* |
+| מזרנים ב-Walmart | 53 | 5 | 64 (6) | 27,419 (10,063 - 59,678) | ≤ 46% | 20 | 94% | 0 / 10 |
+| *כל Walmart (להקשר בלבד)* | *13,242* | *899* | *3,234 (1,266)* | *1.39 M (1.14 - 1.66 M)* | *3.7% לקליק* | *221* | *83%* | *181 / 695* |
 
 ## 7. המלצות להרחבת תוכנית ה-affiliate של Saatva
 
 | # | המלצה | ראיות | מדד למעקב |
 |---|---|---|---|
-| 1 | **לגייס publishers של ביקורות ותוכן שינה**: Sleep Foundation (כבר שולח מבקרים ל-Saatva, ללא תשלום), mattressclarity, buyersguide, rtings | המתחרות הן שותפות בתשלום של בדיוק האתרים האלה (§4.2); שותף הביקורות היחיד של Saatva (mattressnrd) מביא חצי מהקליקים שלה | publishers פעילים של ביקורות; נתח קליקי ה-affiliate מאתרי ביקורות |
-| 2 | **להרחיב את בסיס ה-publishers מעבר ל-3**, החל מרשתות של יוצרי תוכן / link-in-bio | מחלקת המזרנים של Walmart משתמשת ב-20 publishers, רובם דרך קישורי יוצרי תוכן (Mavely, ShopYourLikes) | publishers פעילים בחודש; קליקים ל-publisher (ריכוזיות) |
-| 3 | **לשמור על ה-affiliates כחלופה היעילה לחיפוש ממומן**, ולהגן עליה | ב-Saatva: affiliate 17.6% לעומת ממומן 11.8%; ב-Nectar / DreamCloud משלמים על כ-45-50% מהביקורים בחיפוש | נתח ה-affiliate מהביקורים; עלות להזמנה לעומת חיפוש ממומן |
+| 1 | **לגייס publishers של ביקורות ותוכן שינה**: למשל Sleep Foundation (כבר שולח מבקרים ל-Saatva, ללא תשלום), mattressclarity, buyersguide, rtings | המתחרות הן שותפות בתשלום של בדיוק האתרים האלה (§4.2); שותף הביקורות היחיד של Saatva (mattressnrd) מביא חצי מהקליקים שלה | מספר ה-publishers הפעילים של ביקורות; נתח קליקי ה-affiliate מאתרי ביקורות |
+| 2 | **להרחיב את בסיס ה-publishers מעבר ל-3**, החל מרשתות של יוצרי תוכן / link-in-bio | מחלקת המזרנים של Walmart משתמשת ב-20 publishers, רובם דרך קישורי יוצרי תוכן (Mavely, ShopYourLikes) | מספר ה-publishers הפעילים בחודש; קליקים ל-publisher (ריכוזיות) |
+| 3 | **לשמור על ה-affiliates כחלופה היעילה לחיפוש ממומן**, ולהגן עליה | ב-Saatva: נתח affiliate של 17.6% לעומת ממומן 11.8%; ב-Nectar / DreamCloud משלמים על כ-45-50% מהביקורים בחיפוש | נתח ה-affiliate מהביקורים; עלות להזמנה לעומת חיפוש ממומן |
 | 4 | **לנצח בשלב ההשוואה**: תוכן השוואתי ישיר ("Saatva vs DreamCloud / Helix") עם שותפי ביקורות; עמלה גבוהה יותר בעמודי השוואה | 29-59% מהמבקרים משווים בין מותגים; 8 ביקרו אצל מתחרה לפני Saatva באותו יום לעומת 2 אחרי | נתח מבקרי Saatva שמגיעים מתוכן השוואתי |
-| 5 | **היגיינת קישורים סטנדרטית: `afsrc=1` בכל נחיתה**, כפי שהמתחרות כבר עושות; כללי brand bidding | ב-Saatva 0% לעומת Nectar / Helix 100%, מזרנים ב-Walmart 94%; `brandxemail` עם סמן חיפוש ממומן (מסמך 08) | כיסוי `afsrc`; הפרות stand-down |
+| 5 | **היגיינת קישורים סטנדרטית: הפרמטר `afsrc=1` בכל נחיתה**, כפי שהמתחרות כבר עושות; כללי brand bidding | ב-Saatva 0% לעומת Nectar / Helix 100%, מזרנים ב-Walmart 94%; השותף `brandxemail` עם סמן חיפוש ממומן (מסמך 08) | כיסוי `afsrc`; הפרות stand-down |
 | 6 | **למדוד על 30+ ימי נתונים מ-Partnerize** לפני קביעת היקף שינויי העמלות | יום אחד = 34 ביקורים ב-Saatva, 4 קליקי affiliate | שיעור המרה עם רווח צר מ-±50% |
 
 המלצות בנושא hijacking (stand-down, brand bidding, כלל לקליק ב-checkout, רישום referrer, כרטיס ניקוד
@@ -129,3 +131,5 @@ Helix 2, מזרנים ב-Walmart 2); **2 ביקרו אצל מתחרה אחרי S
 | טבלה | מטרה | לוגיקה |
 |---|---|---|
 | `brand_visits` | שורה אחת לכל ביקור בכל סגמנט | עמוד המותג הראשון ב-session; ערוץ כניסה (§2); ללא כפילויות לפי אדם וזמן כניסה |
+
+</div>

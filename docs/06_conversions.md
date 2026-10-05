@@ -1,3 +1,5 @@
+<div dir="rtl">
+
 # 06 · שלב 04 - המרות וייחוס
 
 > קוד SQL: [`sql/04_conversions.sql`](https://github.com/OriKerem/saatva-affiliate-analysis/blob/main/sql/04_conversions.sql). נבדק על ה-fixture הסינתטי
@@ -10,8 +12,8 @@
 
 | מותג | קליקי affiliate | אנשים | עגלה | checkout | הרשמה | **רכישה** | **הומרו** (רכישה או הרשמה) |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Walmart (כל האתר) | 3,234 | 1,266 | 165 | 130 | 9 | **112** | **120** |
-| Walmart - מחלקת המזרנים | 64 | 6 | 1 | 1 | 0 | **0** | **0** |
+| כל אתר Walmart | 3,234 | 1,266 | 165 | 130 | 9 | **112** | **120** |
+| מחלקת המזרנים של Walmart | 64 | 6 | 1 | 1 | 0 | **0** | **0** |
 | Saatva | 4 | 4 | 0 | 0 | 0 | **0** | **0** |
 | Nectar | 3 | 2 | 0 | 0 | 0 | **0** | **0** |
 | Helix | 2 | 2 | 0 | 0 | 0 | **0** | **0** |
@@ -29,12 +31,12 @@
 
 | רמה | דפים (דוגמאות מהנתונים) | נחשב כהמרה? |
 |---|---|---|
-| רכישה | `walmart.com/thankyou`; תבניות כלליות של דף תודה / אישור הזמנה / הצלחת checkout | **כן** |
-| הרשמה | `identity.walmart.com/account/signup`, `walmart.com/plus/confirmation`, `/register` ו-`/signup` כלליים | **כן** |
-| checkout | `/checkout/...` למעט העגלה (למשל `walmart.com/checkout/review-order`, `nectarsleep.com/checkout/shipping`), ב-Shopify `checkout.helixsleep.com/checkouts/...` | לא - משפך |
+| רכישה | הנתיב `walmart.com/thankyou`; תבניות כלליות של דף תודה / אישור הזמנה / הצלחת checkout | **כן** |
+| הרשמה | הנתיבים `identity.walmart.com/account/signup`, `walmart.com/plus/confirmation`, `/register` ו-`/signup` כלליים | **כן** |
+| checkout | נתיבי `/checkout/...` למעט העגלה (למשל `walmart.com/checkout/review-order`, `nectarsleep.com/checkout/shipping`), ב-Shopify `checkout.helixsleep.com/checkouts/...` | לא - משפך |
 | עגלה | `/cart`, `/shoppingcart`, `/checkout/cart`, `/affil/cart` | לא - משפך |
 
-**hosts:** אתרי הקניות בארה"ב בלבד - saatva.com, nectarsleep.com, helixsleep.com +
+**ה-hosts:** אתרי הקניות בארה"ב בלבד - saatva.com, nectarsleep.com, helixsleep.com +
 checkout.helixsleep.com, dreamcloudsleep.com, walmart.com + identity.walmart.com.
 
 **רזולוציה:** אדם × מותג × רמה, הפעם הראשונה ביום (טעינה מחדש של דף אישור נספרת פעם אחת).
@@ -47,7 +49,7 @@ checkout.helixsleep.com, dreamcloudsleep.com, walmart.com + identity.walmart.com
 |---|---|
 | `walmart.com/orders`, `/orders/#/track` | היסטוריית הזמנות: הזמנה קיימת, לא חדשה |
 | `saatva.com/order-tracker` | לקוח קיים שעוקב אחרי משלוח |
-| `seller.`, `business.`, `careers.`, `photos3.walmart.com`, hosts פנימיים של Walmart | אינם אתר הקניות לצרכן |
+| הדומיינים `seller.`, `business.`, `careers.`, `photos3.walmart.com`, hosts פנימיים של Walmart | אינם אתר הקניות לצרכן |
 | `walmart.com/help/article/...` | דפי עזרה |
 | `identity.walmart.com/account/phone-otp-choice/sign-up` | ככל הנראה שלב התחברות (מקרה גבולי; 10 משתמשים) |
 
@@ -60,21 +62,21 @@ checkout.helixsleep.com, dreamcloudsleep.com, walmart.com + identity.walmart.com
 מדווח עבור אותו יום ועבור אותו session.
 
 דוגמה: ב-10:00 קליק דרך `imp_150372`, ב-10:20 קליק דרך `imp_29332`, ב-10:21 `walmart.com/thankyou`:
-הקרדיט הולך ל-`imp_29332`; שורת ההמרה שומרת גם "60 s מהקליק לרכישה" וגם
-"2 publishers לפני הרכישה" - קלטים לשלב 06.
+הקרדיט הולך ל-`imp_29332`; שורת ההמרה שומרת גם "60 s מהקליק לרכישה"
+וגם "2 publishers לפני הרכישה" - קלטים לשלב 06.
 
 ## 4. הקשר: כל המבקרים, ו-affiliate מול לא-affiliate
 
 | מותג | אנשים שביקרו | עגלה | checkout | הרשמה | רכישה |
 |---|---:|---:|---:|---:|---:|
-| Walmart (כל האתר) | 13,242 | 1,723 | 1,055 | 110 | **899 (6.8%)** |
-| Walmart - מחלקת המזרנים | 53 | 11 | 8 | 0 | 5 (9.4%) |
+| כל אתר Walmart | 13,242 | 1,723 | 1,055 | 110 | **899 (6.8%)** |
+| מחלקת המזרנים של Walmart | 53 | 11 | 8 | 0 | 5 (9.4%) |
 | Nectar | 53 | 5 | 2 | 0 | 0 |
 | Saatva | 31 | 0 | 0 | 0 | 0 |
 | DreamCloud | 29 | 2 | 0 | 0 | 0 |
 | Helix | 19 | 3 | 2 | 0 | 0 |
 
-Walmart - מחלקת המזרנים = אנשים שצפו בדף מזרנים של Walmart באותו יום (מסמך 07 §5). העגלה,
+מחלקת המזרנים של Walmart = אנשים שצפו בדף מזרנים של Walmart באותו יום (מסמך 07 §5). העגלה,
 ה-checkout והרכישה שלהם יכולים להיות של כל מוצר: דף האישור לא מציין מה נקנה.
 
 | Walmart | אנשים | רכשו |
@@ -82,7 +84,7 @@ Walmart - מחלקת המזרנים = אנשים שצפו בדף מזרנים ש
 | לחצו על קישור affiliate | 1,266 | **9.6%** |
 | ללא קליק affiliate | 11,976 | **6.5%** |
 
-אנשים שהופנו מ-affiliate רוכשים בתדירות גבוהה פי ~1.5. **מתאם, לא סיבתיות:** publishers של דילים, קופונים
+אנשים שהופנו מ-affiliate רוכשים בתדירות גבוהה פי ~1.5. **מתאם, לא סיבתיות:** ה-publishers של דילים, קופונים
 ו-cashback מושכים אנשים שהיו עומדים לקנות בכל מקרה. כדי לדעת אם affiliates *גורמים* למכירות נדרשת
 בדיקת holdout / incrementality (המלצה).
 
@@ -94,7 +96,7 @@ Walmart - מחלקת המזרנים = אנשים שצפו בדף מזרנים ש
 
 1. הסביבה `--dev` מכילה **כל** משתמש DTC, ותוצאות ה-DTC ב-`--dev` ובנתונים המלאים זהות.
 2. הגילוי הפתוח של נתיבים (§2.1) לא מצא דף אישור באף host של DTC.
-3. שירותי תשלום ומימון: PayPal מופיע רק כווידג'טים של כפתור / פיקסל שנטענים בתוך דף
+3. שירותי תשלום ומימון: שירות PayPal מופיע רק כווידג'טים של כפתור / פיקסל שנטענים בתוך דף
    העגלה (`/smart/buttons`, `/web-sdk/.../pixel`), ואחריהם גלישה נוספת; בדיקת זכאות מוקדמת אחת של Affirm;
    אין תשלום שהושלם.
 4. השלמות אחרות (השאלון של Helix, הרשמה לאימייל / SMS דרך Attentive או Klaviyo): מבקרים בודדים בסך הכול,
@@ -129,17 +131,17 @@ Walmart - מחלקת המזרנים = אנשים שצפו בדף מזרנים ש
 | רכישות פחות מ-10 דקות אחרי הקליק | 61 מתוך 112; חציון 8 דקות; p90 65 דקות |
 | `imp_29332` | 4 רכישות ייוחסו, **כל ה-4 אחרי קליק של publisher אחר**, חציון **75 s** מהקליק לרכישה |
 | `imp_10621` | 3 רכישות, 2 אחרי publisher אחר, חציון 65 s |
-| `imp_101044` (בכניסה מדפי קניות / הטבות של Capital One) | 8 רכישות, חציון 3.5 דקות |
-| `imp_150372` (הגדול ביותר) | 31 רכישות, חציון 15 דקות, 4 אחרי publisher אחר |
+| השותף `imp_101044` (בכניסה מדפי קניות / הטבות של Capital One) | 8 רכישות, חציון 3.5 דקות |
+| השותף `imp_150372` (הגדול ביותר) | 31 רכישות, חציון 15 דקות, 4 אחרי publisher אחר |
 
 ## 7. אימות
 
 | בדיקה | תוצאה |
 |---|---|
-| fixture סינתטי, שאילתה בלתי תלויה על הקבצים הגולמיים ("נחיתת affiliate, ואחריה אישור הזמנה על אותו מותג") | רכישות זהות לכל מותג: DreamCloud 31, Helix 33, Nectar 43, Saatva 42, Walmart 39 |
+| ה-fixture הסינתטי, שאילתה בלתי תלויה על הקבצים הגולמיים ("נחיתת affiliate, ואחריה אישור הזמנה על אותו מותג") | רכישות זהות לכל מותג: DreamCloud 31, Helix 33, Nectar 43, Saatva 42, Walmart 39 |
 | סינתטי: `/checkout` בלי לוכסן בסוף | נספר כ-checkout |
 | דטרמיניזם | שוויון בין מזהים כפולים של אותו אדם באותה שנייה מוכרע לטובת ה-USER_ID הקטן ביותר (המזהה שהקליק שלו שורד את שלב 03), כך ש"רכישה באותו session" לעולם לא תלויה בבחירה שרירותית; שתי הרצות מלאות רצופות מפיקות פלטים זהים ברמת הבייט |
-| `--dev` מול מלא | שורות DTC זהות |
+| מצב `--dev` מול מלא | שורות DTC זהות |
 
 ## 8. טבלאות ביניים
 
@@ -147,3 +149,5 @@ Walmart - מחלקת המזרנים = אנשים שצפו בדף מזרנים ש
 |---|---|---|
 | `conversion_events` | שורה אחת לכל אדם × מותג × רמה | האירוע הראשון ביום ב-hosts של המותג בארה"ב שתואם לתבניות הרמה (§2) |
 | `click_conversions` | ייחוס | לכל המרה: קליק ה-affiliate האחרון שאינו כפול של אותו אדם ואותו מותג לפניה; זמן עד ההמרה, דגל אותו session, מספר הקליקים וה-publishers שלפניה |
+
+</div>

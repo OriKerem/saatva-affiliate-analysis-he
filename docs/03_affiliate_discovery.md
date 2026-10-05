@@ -1,7 +1,9 @@
+<div dir="rtl">
+
 # 03 · שלב 01 - איתור סיגנלים של affiliate: תוצאות
 
-> הרצה: `python src/run_pipeline.py --steps 01` על **מערך הנתונים המלא** (32 קובצי Parquet, יום אחד:
-> 2026-05-01 UTC). זמן ריצה ≈ 1.5 דק'. קוד SQL: [`sql/01_param_discovery.sql`](https://github.com/OriKerem/saatva-affiliate-analysis/blob/main/sql/01_param_discovery.sql).
+> הרצה: הפעלת `python src/run_pipeline.py --steps 01` על **מערך הנתונים המלא** (32 קובצי Parquet,
+> יום אחד: 2026-05-01 UTC). זמן ריצה ≈ 1.5 דק'. קוד SQL: [`sql/01_param_discovery.sql`](https://github.com/OriKerem/saatva-affiliate-analysis/blob/main/sql/01_param_discovery.sql).
 > הפלטים הגולמיים (`outputs/01_param_discovery/`) **אינם נשמרים ב-commit**: הם מכילים כתובות URL לדוגמה
 > מה-panel. מסמך זה מפרסם את הממצאים המצרפיים ואת ההחלטות הנגזרות מהם.
 
@@ -21,8 +23,8 @@
 שהושתלו בו.
 
 **למה שני מדגמים.** תת-המדגם האקראי של 5% מהמשתמשים מכיל רק 1-3 משתמשים לכל מותג DTC (מסמך 02) - מעט מדי
-לאימות לוגיקת DTC. מדגם שני, מרובד (`--dev`), שומר את **כל** המשתמשים שנגעו במותג
-DTC, את כל קוני המזרנים ב-Walmart, 5% אקראיים מכל השאר ואת עותקי ה-panel של אותם
+לאימות לוגיקת DTC. מדגם שני, מרובד (`--dev`), שומר את **כל** המשתמשים שנגעו במותג DTC,
+את כל קוני המזרנים ב-Walmart, 5% אקראיים מכל השאר ואת עותקי ה-panel של אותם
 5% אקראיים (מסמך 04 §5.1). הוא משמש לאימות לוגיקה, ולעולם לא לחישוב שיעורים.
 
 ### 2.1 תת-מדגם אקראי של 5% (`--subset`) - האם הסיגנלים יציבים?
@@ -59,7 +61,7 @@ DTC, את כל קוני המזרנים ב-Walmart, 5% אקראיים מכל הש
 | טבלה | מטרה | לוגיקה | גודל (נתונים מלאים) |
 |---|---|---|---|
 | `brand_users` | הגבלת כל העבודה בהמשך למשתמשים רלוונטיים | ערכי `USER_ID` ייחודיים שה-`SUBDOMAIN` **או** ה-`URL` שלהם מכילים טוקן של מותג (`saatva`, `nectarsleep`, `helixsleep`, `dreamcloudsleep`, `walmart`). ההתאמה ב-URL תופסת גם כתובות redirect שנושאות את היעד | 16,063 משתמשים |
-| `bu_events` | שחזור מסעות המשתמש (אין עמודת referrer) | כל האירועים של `brand_users`; host = ה-host של ה-URL, באותיות קטנות, ללא `www.` (גיבוי: `SUBDOMAIN`); העמודה `brand` מוגדרת **רק** לאתר הקניות הראשי בארה"ב; פונקציות `LAG`/`LEAD` על `USER_ID` בסדר `CREATED_TIME, _ID` נותנות את ה-host, ה-URL, ה-session והפער ב-ms של האירוע הקודם/הבא | 2,246,751 אירועים, מתוכם 129,401 באתרי המותגים הראשיים |
+| `bu_events` | שחזור מסעות המשתמש (אין עמודת referrer) | כל האירועים של `brand_users`; host = ה-host של ה-URL, באותיות קטנות, ללא `www.` (עם גיבוי מ-`SUBDOMAIN`); העמודה `brand` מוגדרת **רק** לאתר הקניות הראשי בארה"ב; פונקציות `LAG`/`LEAD` על `USER_ID` בסדר `CREATED_TIME, _ID` נותנות את ה-host, ה-URL, ה-session והפער ב-ms של האירוע הקודם/הבא | 2,246,751 אירועים, מתוכם 129,401 באתרי המותגים הראשיים |
 
 שתיהן נמצאות ב-`data/intermediate/analysis.duckdb` (ב-git-ignore, נבנה מחדש על ידי ה-pipeline).
 הטבלה `brand_users` ועמודות ה-host/brand נבנות פעם אחת בשלב ה-staging (`sql/00_stage.sql`,
@@ -71,7 +73,7 @@ DTC, את כל קוני המזרנים ב-Walmart, 5% אקראיים מכל הש
 
 | מותג | משתמשים | אירועים | הערות על הדומיין |
 |---|---:|---:|---|
-| Walmart | 13,926 | 128,982 | 375 hosts הקשורים ל-Walmart; יש להחריג אתרים מחוץ לארה"ב (`walmart.ca`, 95 משתמשים) |
+| Walmart | 13,926 | 128,982 | נמצאו 375 hosts הקשורים ל-Walmart; יש להחריג אתרים מחוץ לארה"ב (`walmart.ca`, 95 משתמשים) |
 | Nectar | 57 | 182 | יש להחריג את `nectarsleep.co.uk` (1 אירוע) |
 | Saatva | 32 | 82 | נמצא `saatva.prf.hn` (דומיין ממותג של Partnerize, משתמש 1). הדומיינים `saatvadreams.com` ו-`saatvamattress.com` לא נמצאו |
 | DreamCloud | 30 | 90 | - |
@@ -81,7 +83,7 @@ DTC, את כל קוני המזרנים ב-Walmart, 5% אקראיים מכל הש
 
 | מותג | סמנים שנמצאו ב-URL הנחיתה | רשת | משתמשים עם סמן |
 |---|---|---|---:|
-| Saatva | `utm_medium=affiliate` + `click_id=1101l…` (לרוב עם `coupon`, לפעמים עם `app_clickref`) | Partnerize | 7-10 |
+| Saatva | השילוב `utm_medium=affiliate` + `click_id=1101l…` (לרוב עם `coupon`, לפעמים עם `app_clickref`) | Partnerize | 7-10 |
 | Helix | `irclickid`, `irgwc=1`, `afsrc=1`, `ir_partnerid`, `ir_adid`, `ir_campaignid` | Impact | 4 |
 | Nectar | `CIDIMP`, `irgwc=1`, `afsrc=1`, `utm_campaign=IMPACT` | Impact | 2 |
 | DreamCloud | `CIDIMP`, `irgwc=1`, `afsrc=1`, `utm_campaign=IMPACT`, `utm_medium=AFF` | Impact | 2 |
@@ -97,12 +99,12 @@ DTC, את כל קוני המזרנים ב-Walmart, 5% אקראיים מכל הש
 
 | ציפייה | ממצא | הכרעה |
 |---|---|---|
-| Saatva: Partnerize, `clickref` בנחיתה | Partnerize אושר; פרמטר הנחיתה הוא **`click_id`**, ולא `clickref`. פורמט הערך `1101l…` דומה למזהים של Partnerize | הרשת אושרה, הפרמטר שונה |
+| אצל Saatva: רשת Partnerize, `clickref` בנחיתה | הרשת Partnerize אושרה; פרמטר הנחיתה הוא **`click_id`**, ולא `clickref`. פורמט הערך `1101l…` דומה למזהים של Partnerize | הרשת אושרה, הפרמטר שונה |
 | Nectar, Helix: Impact | אושר (`irgwc`, `afsrc`; ב-Helix גם `irclickid`) | אושר |
-| DreamCloud: רשת לא ידועה | **Impact**, בפורמט זהה ל-Nectar (אותה חברת אם) | התגלה |
+| אצל DreamCloud: רשת לא ידועה | רשת **Impact**, בפורמט זהה ל-Nectar (אותה חברת אם) | התגלה |
 | Walmart: `veh=aff`, `sourceid` | נמצאו; קיים גם `affiliates_ad_id` | אושר |
-| Walmart: redirect דרך `goto.walmart.com` | לא נמצא | לא קיים בנתונים |
-| Impact: `im_ref`; CJ `cjevent`; Rakuten `ranMID`; Awin `awc`; ShareASale `sscid`; `aff_id` גנרי | לא נמצאו באף מותג DTC | לא קיים בנתונים |
+| אצל Walmart: הפניה (redirect) דרך `goto.walmart.com` | לא נמצא | לא קיים בנתונים |
+| הפרמטרים `im_ref` של Impact, `cjevent` של CJ, `ranMID` של Rakuten, `awc` של Awin, `sscid` של ShareASale ו-`aff_id` גנרי | לא נמצאו באף מותג DTC | לא קיים בנתונים |
 | דומייני redirect לפני הנחיתה (`prf.hn`, `sjv.io`, `pxf.io`, דומיינים של CJ, `awin1.com`, `go.skimresources.com`) | **אף אחד** מהם אינו מופיע מיד לפני נחיתה במותג DTC (ראו §5.1) | לא קיים בנתונים |
 | - (לא נצפה מראש) | דגל ה-stand-down `afsrc=1` בנחיתות של Impact; לא קיים ב-Saatva (§4.4) | התגלה |
 | VigLink, Rakuten | מובילים רק ל-Walmart (5 ו-2 משתמשים) | שולי |
@@ -132,9 +134,9 @@ DTC, את כל קוני המזרנים ב-Walmart, 5% אקראיים מכל הש
 נחיתות ב-Nectar עם `utm_medium=cpc`, הפרמטרים הפנימיים `rh_*` של Resident ו-`gclid`: ≈ 34 משתמשים
 (לעומת 2 עם סמני affiliate). אותו דפוס ב-DreamCloud (`rh_*`, `gclid`: ≈ 13-15 משתמשים).
 
-### 4.6 Walmart: מתווכים לפני הכניסה
+### 4.6 מתווכים לפני הכניסה ל-Walmart
 
-בין ה-hosts הנפוצים ביותר מיד לפני כניסה ל-Walmart: `rd.bizrate.com` (255 משתמשים),
+בין ה-hosts הנפוצים ביותר מיד לפני כניסה ל-Walmart: הדומיינים `rd.bizrate.com` (255 משתמשים),
 `mavely.app.link` (104), `walmrt.us`, `s.golikely.com`, `w-mt.co`, `go.sylikes.com`, `rstyle.me` -
 שירותי השוואת מחירים ושירותי קישורים של יוצרי תוכן/משפיענים. שלב 06 מסווג אותם כתנועת השוואה או
 תנועת יוצרים (מסמך 08); `walmrt.us` ו-`w-mt.co` הם קישורים מקוצרים שבעליהם אינו גלוי,
@@ -149,8 +151,8 @@ DTC, את כל קוני המזרנים ב-Walmart, 5% אקראיים מכל הש
 הנחיתה (סיגנל A).** אינדיקטורי ה-hijack אינם תלויים בקפיצת redirect (מסמך 08 §3).
 
 ### 5.2 עמודי חיפוש אינם מופיעים לפני כניסות למותגים
-אף עמוד של `google.com` / `bing.com` לא קודם לכניסה כלשהי למותג (רק `clickserve.dartsearch.net`, שהוא
-redirect של Google Ads), ו-`google.com` לא היה בין הדומיינים המובילים בפרופיילינג.
+אף עמוד של `google.com` / `bing.com` לא קודם לכניסה כלשהי למותג (רק `clickserve.dartsearch.net`,
+שהוא redirect של Google Ads), ו-`google.com` לא היה בין הדומיינים המובילים בפרופיילינג.
 ה-panel מחריג עמודי תוצאות של מנועי חיפוש (אושר ב-§8.5: 23 עמודי חיפוש של Google מתוך 48.4 M אירועים).
 לכן לא ניתן לצפות בחיפוש של מונח מותג לפני redirect של affiliate. תנועת חיפוש ממומן
 מזוהה במקום זאת לפי פרמטרים (`gclid`, `gad_source`, `gclsrc`) - מה שגם מאפשר מבחן ישיר
@@ -205,33 +207,33 @@ redirect של Google Ads), ו-`google.com` לא היה בין הדומיינים
 סמנים בלתי תלויים מצביעים על אותה אוכלוסיית affiliate. *שם* הפרמטר לבדו היה
 מערבב את תנועת ה-affiliate עם יותר מ-2,000 משתמשי חיפוש ממומן.
 
-עוד בולט ב-Walmart: `utm_source=chatgpt.com` אצל **127 משתמשים** - הפניות מעוזרי AI, ערוץ ה-
-"zero-click"; וגם `utm_source=katalys` (רשת performance/affiliate, 14 משתמשים).
+עוד בולט ב-Walmart: הערך `utm_source=chatgpt.com` אצל **127 משתמשים** - הפניות מעוזרי AI,
+ערוץ ה-"zero-click"; וגם `utm_source=katalys` (רשת performance/affiliate, 14 משתמשים).
 
 ### 8.2 מותגי DTC: ערכים (מדויק, נתונים מלאים = `--dev`)
 
 | מותג | סמני affiliate | תנועה מתויגת אחרת |
 |---|---|---|
-| Saatva | `utm_medium=affiliate` (7 משתמשים); קידומות `click_id` של Partnerize: `1101l…` (5), `1100l…` (4), `1011l…` (1); publishers ב-`utm_source`: `mattressnrd` (כנראה Mattress Nerd, אתר ביקורות, 4), `trafficpoint12345` (2) | `utm_medium=streaming` (`tatari`, ייחוס טלוויזיה, 2) |
+| Saatva | הערך `utm_medium=affiliate` (7 משתמשים); קידומות `click_id` של Partnerize הן `1101l…` (5), `1100l…` (4), `1011l…` (1); ה-publishers ב-`utm_source` הם `mattressnrd` (כנראה Mattress Nerd, אתר ביקורות, 4), `trafficpoint12345` (2) | הערך `utm_medium=streaming` (`tatari`, ייחוס טלוויזיה, 2) |
 | Helix | `utm_source=impact` + `irclickid` (4) | - |
 | Nectar | `utm_medium=aff` / `utm_campaign=impact` (1-2) | `utm_medium=cpc`, `utm_source=google` (**34**) |
-| DreamCloud | `utm_medium=aff` / `utm_campaign=impact` (2); `utm_source=trafficpoint-2`, `wickfire` (1 לכל אחד) | `utm_medium=cpc` (**15**) |
+| DreamCloud | הערכים `utm_medium=aff` / `utm_campaign=impact` (2); `utm_source=trafficpoint-2`, `wickfire` (1 לכל אחד) | `utm_medium=cpc` (**15**) |
 
-הערך `trafficpoint` מופיע גם ב-Saatva וגם ב-DreamCloud. `wickfire` מוכר כ-affiliate של חיפוש ממומן
+הערך `trafficpoint` מופיע גם ב-Saatva וגם ב-DreamCloud. הערך `wickfire` מוכר כ-affiliate של חיפוש ממומן
 (קונה מודעות חיפוש בשם מותגים) - רלוונטי להגדרת ה-hijacking שבה משתמשים כאן, שכוללת
 תנועת חיפוש ממומן שתויגה מחדש כ-affiliate.
 
 ### 8.3 נוכחות, ללא תקרה, של כל פרמטר מרשימות הפתיחה (נתונים מלאים)
 
-CJ (`cjevent`, `cjdata`), Rakuten (`ranmid`, `raneaid`, `ransiteid`), Awin (`awc`), ShareASale
-(`sscid`, `sas`), Partnerize `clickref` / `camref`, Impact `im_ref`, `aff_id` / `affid` גנריים:
+הפרמטרים של CJ (`cjevent`, `cjdata`), Rakuten (`ranmid`, `raneaid`, `ransiteid`), Awin (`awc`), ShareASale (`sscid`, `sas`),
+וכן `clickref` / `camref` של Partnerize, `im_ref` של Impact ו-`aff_id` / `affid` גנריים:
 **0 משתמשים בכל מותג, כולל Walmart.** הבדיקה ללא תקרה מאשרת את ה"לא נמצא" של שלב 01
 עבור Walmart (שלב 01 מוגבל ל-60 מפתחות).
 
 ### 8.4 דומייני redirect מרשימות הפתיחה בכל מקום במסעות של משתמשי המותגים (נתונים מלאים)
 
 עמודי redirect של רשתות *כן* נרשמים מדי פעם (למשל `iherb.prf.hn` אל `iherb.com`), אבל מעטים מאוד מובילים
-למותגים שלנו: VigLink אל Walmart 9 משתמשים, Impact אל Walmart 8, Rakuten / CJ / AvantLink / Howl אל Walmart
+למותגים שלנו: מ-VigLink אל Walmart 9 משתמשים, מ-Impact אל Walmart 8, מ-Rakuten / CJ / AvantLink / Howl אל Walmart
 1-2 כל אחד, **אף אחד אל מותג DTC**. מאשר את §5.1: הזיהוי חייב להישען על פרמטרי הנחיתה.
 
 ### 8.5 עמודי תוצאות של מנועי חיפוש אינם קיימים
@@ -241,5 +243,7 @@ CJ (`cjevent`, `cjdata`), Rakuten (`ranmid`, `raneaid`, `ransiteid`), Awin (`awc
 מחריג עמודי תוצאות חיפוש. את H5 (חיפוש של מונח מותג ואחריו קליק affiliate) לא ניתן למדוד; חיפוש ממומן
 נמדד במקום זאת באמצעות `gclid` / `gad_source` / `msclkid` / `veh=sem`.
 
-הערת איכות נתונים: כמה hosts מכילים תו בלתי נראה U+200E או שגיאות כתיב
-(`‎safe.duckduckgo.com`, `wwww.google.com`); נפח זניח, מצוין לשם השלמות.
+הערת איכות נתונים: כמה hosts מכילים תו בלתי נראה U+200E או שגיאות
+כתיב (`‎safe.duckduckgo.com`, `wwww.google.com`); נפח זניח, מצוין לשם השלמות.
+
+</div>
